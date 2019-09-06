@@ -9,9 +9,17 @@ class FullPost extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    this.loadData();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.loadData();
+  }
+
+  loadData = () => {
     if (this.props.match.params.postId) {
-      if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.match.params.postId))
+      //this.props.match.params.postId is a string so below we have to use != instead of !===
+      if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id != this.props.match.params.postId))
       {
       axios.get('/posts/' + this.props.match.params.postId)
         .then(res => {
