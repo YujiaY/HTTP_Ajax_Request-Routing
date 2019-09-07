@@ -9,6 +9,8 @@ class FullPost extends Component {
   }
 
   componentDidMount() {
+    console.log('FullPost this.props:');
+    console.log(this.props);
     this.loadData();
   }
 
@@ -16,10 +18,10 @@ class FullPost extends Component {
     this.loadData();
   }
 
-  loadData = () => {
+  loadData () {
     if (this.props.match.params.postId) {
       //this.props.match.params.postId is a string so below we have to use != instead of !===
-      if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id != this.props.match.params.postId))
+      if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !==  +this.props.match.params.postId))
       {
       axios.get('/posts/' + this.props.match.params.postId)
         .then(res => {
@@ -38,7 +40,7 @@ class FullPost extends Component {
 
   render () {
     let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
-      if (this.props.id) {
+      if (this.props.match.params.postId) {
         post = <p style={{textAlign: 'center'}}>Loading</p>;
       }
     if (this.state.loadedPost) {
