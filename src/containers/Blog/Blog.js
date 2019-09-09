@@ -5,12 +5,15 @@ import Posts from './Posts/Posts';
 
 
 import './Blog.css';
-import NewPost from "./NewPost/NewPost";
-import FullPost from "./FullPost/FullPost";
+import asyncComponent from '../../hoc/asyncComponent';
+// import NewPost from "./NewPost/NewPost";
+const AsyncNewPost = asyncComponent(() => {
+  return import('./NewPost/NewPost');
+});
 
 class Blog extends Component {
   state = {
-    auth: false,
+    auth: true,
   }
 
   render () {
@@ -38,10 +41,10 @@ class Blog extends Component {
           </nav>
         </header>
         <Switch>
-          { this.state.auth? <Route path="/new-post" component={NewPost} /> : null}
+          { this.state.auth? <Route path="/new-post" component={AsyncNewPost} /> : null}
           <Route path="/posts" component={Posts} />
+          <Redirect from="/" exact to="/posts" />
           <Route render = {() => <h1 style={{"textAlign": "center"}}>Page Not Found. Please Authenticate. </h1>} />
-          {/*<Redirect from="/" to="/posts" />*/}
         </Switch>
 
 
